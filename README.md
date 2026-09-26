@@ -5,7 +5,7 @@
 </p>
 <p align="center"> 
  𝚅𝙸𝚂𝙸𝚃𝙾𝚁𝚂 𝙲𝙾𝚄𝙽𝚃
- <img src="https://profile-counter.glitch.me/savagetech56/count.svg" alt="Visitors">
+ <img src="https://profile-counter.glitch.me/mooa322/count.svg" alt="Visitors">
 </p>
 
 
@@ -22,14 +22,14 @@ apt update && apt upgrade -y && update-grub && sleep 2 && reboot
 ```
 
 ## INSTALL SCRIPT 
-Autoscript Premium by savagetech56 
+Autoscript Premium by mooa322 
 ```
-apt install -y && apt update -y && apt upgrade -y && wget -q https://raw.githubusercontent.com/savagetech56/premium/main/premium.sh && chmod +x premium.sh && ./premium.sh
+apt install -y && apt update -y && apt upgrade -y && wget -q https://raw.githubusercontent.com/mooa322/premium/main/premium.sh && chmod +x premium.sh && ./premium.sh
 ```
 ## UPDATE SCRIPT
 via
 ```
-wget -q https://raw.githubusercontent.com/savagetech56/premium/main/update.sh && chmod +x update.sh && ./update.sh
+wget -q https://raw.githubusercontent.com/mooa322/premium/main/update.sh && chmod +x update.sh && ./update.sh
 ```
 
 ## TESTED ON OS
@@ -77,8 +77,8 @@ wget -q https://raw.githubusercontent.com/savagetech56/premium/main/update.sh &&
 ```
 
 ## MENU FOR SCRIPT
-<img width="100%" alt="IMG-20250215-WA0003(1).jpg" src="https://github.com/savagetech56/premium/blob/main/assets/IMG-20250215-WA0003(1).jpg">
+<img width="100%" alt="IMG-20250215-WA0003(1).jpg" src="https://github.com/mooa322/premium/blob/main/assets/IMG-20250215-WA0003(1).jpg">
 
 ### CONTACT ADMIN !
-savagetech56:
+mooa322:
 <br><br><a href="https://wa.me/+254716637803" target=”_blank”><img src="https://img.shields.io/static/v1?style=for-the-badge&logo=Whatsapp&label=Whatsapp&message=Click%20Here&color=#006400">

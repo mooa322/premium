@@ -353,7 +353,7 @@ bw
 ;;
 23)
 clear
-wget -q https://raw.githubusercontent.com/savagetech56/premium/main/update.sh
+wget -q https://raw.githubusercontent.com/mooa322/premium/main/update.sh
 chmod +x update.sh
 ./update.sh
 ;;

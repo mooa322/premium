@@ -35,7 +35,7 @@ echo -e "${YELLOW}━━━━━━━━━━━━━━━━━━━━�
 echo -e "  Developer » Toxic Savage${YELLOW}(${NC}${green} Stable Edition ${NC}${YELLOW})${NC}"
 echo -e "  » This Will Quick Setup VPN Server On Your Server"
 echo -e "  Pembuat : ${green}savage tech ࿐® ${NC}"
-echo -e "  Recode By My Self savagetech56࿐ ${YELLOW}(${NC} 2024 ${YELLOW})${NC}"
+echo -e "  Recode By My Self mooa322࿐ ${YELLOW}(${NC} 2024 ${YELLOW})${NC}"
 echo -e "${YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo ""
 sleep 2
@@ -91,7 +91,7 @@ gem install lolcat
 apt install wondershaper -y
 clear
 # REPO    
-    REPO="https://raw.githubusercontent.com/savagetech56/premium/main/"
+    REPO="https://raw.githubusercontent.com/mooa322/premium/main/"
 
 ####
 start=$(date +%s)
@@ -529,7 +529,7 @@ print_success "Password SSH"
 function udp_mini(){
 clear
 print_install "Install Service Limit IP & Quota"
-wget -q https://raw.githubusercontent.com/savagetech56/premium/main/config/fv-tunnel && chmod +x fv-tunnel && ./fv-tunnel
+wget -q https://raw.githubusercontent.com/mooa322/premium/main/config/fv-tunnel && chmod +x fv-tunnel && ./fv-tunnel
 
 # // Installing UDP Mini
 mkdir -p /usr/local/kyt/

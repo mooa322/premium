@@ -17,7 +17,7 @@ GREEN='\033[0;32m'
 ORANGE='\033[33m'
 BGWHITE='\e[0;100;37m'
 
-bot="https://raw.githubusercontent.com/savagetech56/premium/main/bot/bot.sh"
+bot="https://raw.githubusercontent.com/mooa322/premium/main/bot/bot.sh"
 clear
 
 clear
