@@ -213,20 +213,35 @@ sys_line "CITY"       "$CITY"
 echo ""
 
 # ═══ 3. Account information — purple badge + rainbow rule, white rows, rainbow footer ═══
-acct_hdr=" ACCOUNT INFORMATION "
-al=$(( (TUI_WIDTH - ${#acct_hdr}) / 2 )); ar=$(( TUI_WIDTH - al - ${#acct_hdr} ))
-printf "%*s${BG_PURPLE}${NWHITE}%s${NOFF}%*s\n" $al "" "$acct_hdr" $ar ""
-seg=$(( TUI_WIDTH / 5 )); rem=$(( TUI_WIDTH - seg*5 ))
-rule="════════════════════════════════════════════════════════════════════════════════════"
-printf " ${NPURPLE}%s${NOFF}${NRED}%s${NOFF}${NGOLD}%s${NOFF}${NLIME}%s${NOFF}${NCYN}%s${NOFF}\n" \
-    "${rule:0:$((seg+1))}" "${rule:$((seg+1)):$seg}" "${rule:$((2*seg+1)):$seg}" "${rule:$((3*seg+1)):$seg}" "${rule:$((4*seg+1)):$((seg+rem))}"
-acct_row() { printf "     ${NWHITE}» %-16s : %-14s » %-16s : %-4s » ${a}${NOFF}\n" "$1" "$2" "$3" "$4"; }
+acct_hdr="ACCOUNT INFORMATION"
+aw=$(( ${#acct_hdr} + 4 ))
+apadl=$(( (TUI_WIDTH - aw) / 2 )); apar=$(( TUI_WIDTH - apadl - aw ))
+phline=$(printf '%0.s─' $(seq 1 $apadl)); phline2=$(printf '%0.s─' $(seq 1 $apar))
+printf "${NPURPLE}%s${NOFF}${BG_PURPLE}${NWHITE} %s ${NOFF}${NPURPLE}%s${NOFF}\n" "$phline" "$acct_hdr" "$phline2"
+# ── 3-column account rows: purple labels · cyan numbers · gold PREMIUM ──
+vis_len() { printf '%b' "$1" | sed -r 's/\x1B\[[0-9;]*[mK]//g' | wc -m | tr -d ' '; }
 devlogin=$(ss -s 2>/dev/null | awk 'NR==1{gsub(/[^0-9]/,"",$NF); print $NF}'); devlogin=${devlogin:-0}
-acct_row "SSH OPENVPN ACC" "$ssh1"  "SSR/VMESS/VLESS" "$((vma+vla))"
-acct_row "TROJAN ACCOUNT"  "$trb"   "SHADOWSOCKS ACC" "$ssa"
-acct_row "TOTAL ACCOUNT"   "$((ssh1+vma+vla+trb+ssa))" "DEVICE LOGIN"  "$devlogin"
-echo ""
-printf "     ${NPURPLE}» LIMIT${NOFF} ${NRED}MAX${NOFF} ${NGOLD}ACTIVE${NOFF} ${NLIME}MULTI${NOFF} ${NCYN}LOGIN${NOFF}\n"
+totalacc=$((ssh1+vma+vla+trb+ssa))
+acct_cell() {  # acct_cell LABEL VALUE -> colored cell string (gold PREMIUM in col 3)
+    if [ "$1" = "ACCOUNT PREMIUM" ]; then
+        printf "${NGOLD}» ${1}${NOFF}"
+    else
+        printf "${NPURPLE}» ${1}${NOFF}  ${NCYN}:${NOFF} ${NBLUE}${2}${NOFF}"
+    fi
+}
+acct_line() {
+    local c1 c2 c3 v1 v2 p1 p2
+    c1=$(acct_cell "$1" "$2"); c2=$(acct_cell "$3" "$4"); c3=$(acct_cell "$5" "")
+    v1=$(vis_len "$c1"); v2=$(vis_len "$c2")
+    p1=$(( 26 - v1 )); (( p1 < 2 )) && p1=2
+    p2=$(( 26 - v2 )); (( p2 < 2 )) && p2=2
+    printf "     %b%*s%b%*s%b\n" "$c1" $p1 "" "$c2" $p2 "" "$c3"
+}
+acct_line "SSH OPENVPN ACC" "$ssh1"                "SSR/VMESS/VLESS" "$((vma+vla))" "ACCOUNT PREMIUM"
+acct_line "TROJAN ACCOUNT"  "$trb"                 "SHADOWSOCKS ACC" "$ssa"         "ACCOUNT PREMIUM"
+acct_line "TOTAL ACCOUNT"   "$totalacc"            "DEVICE LOGIN"    "$devlogin"    "ACCOUNT PREMIUM"
+limitmax=$(grep -Ew '^multi' /etc/xray/conf 2>/dev/null | awk '{print $2}' | head -1); limitmax=${limitmax:-5}
+printf "     ${NPURPLE}»${NOFF} ${NLIME}LIMIT${NOFF} ${NBLUE}MAX${NOFF} ${NGOLD}ACTIVE${NOFF} ${NRED}MULTI${NOFF} ${NCYN}LOGIN${NOFF} ${NBLUE}: ${limitmax}${NOFF}\n"
 echo ""
 
 # ═══ 4. Service status — one wide box, 4 gradient-bordered columns ═══
