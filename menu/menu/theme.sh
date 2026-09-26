@@ -12,22 +12,22 @@
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 # ── Neon palette ───────────────────────────────────────
-NPURPLE='\033[1;95m'    # bright neon purple
-NCYN='\033[1;96m'       # neon cyan
-NLIME='\033[1;92m'      # lime green
-NORANGE='\033[1;93m'    # vivid orange
-NGOLD='\033[1;33m'      # gold
-NBLUE='\033[1;94m'      # neon blue
-NPINK='\033[1;95m'      # magenta/pink
-NRED='\033[1;91m'       # neon red
-NWHITE='\033[1;97m'
-NGRAY='\033[0;37m'
-NOFF='\033[0m'
+NPURPLE=$'\033[1;95m'    # bright neon purple
+NCYN=$'\033[1;96m'       # neon cyan
+NLIME=$'\033[1;92m'      # lime green
+NORANGE=$'\033[1;93m'    # vivid orange
+NGOLD=$'\033[1;33m'      # gold
+NBLUE=$'\033[1;94m'      # neon blue
+NPINK=$'\033[1;95m'      # magenta/pink
+NRED=$'\033[1;91m'       # neon red
+NWHITE=$'\033[1;97m'
+NGRAY=$'\033[0;37m'
+NOFF=$'\033[0m'
 
 # background blocks for headers
-BG_PURPLE='\033[1;30;45m'   # white-on-purple  (solid purple block)
-BG_CYAN='\033[1;30;46m'     # black-on-cyan
-BG_BLUE='\033[1;37;44m'
+BG_PURPLE=$'\033[1;30;45m'   # white-on-purple  (solid purple block)
+BG_CYAN=$'\033[1;30;46m'     # black-on-cyan
+BG_BLUE=$'\033[1;37;44m'
 
 TUI_WIDTH=68                # inner width of the main frames
 
@@ -118,5 +118,5 @@ neon_solid_line() {  # neon_solid_line <width> <color> <char> — full-width rul
 }
 
 blink_cursor() {  # blinking block cursor for the prompt line
-    printf "\033[?25h"
+    printf "[?25h"
 }
