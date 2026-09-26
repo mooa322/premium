@@ -161,58 +161,128 @@ let trb=$trx/2
 ssx=$(grep -c -E "^#ss# " "/etc/xray/config.json")
 let ssa=$ssx/2
 
-a="ACCOUNT PREMIUM" 
-KANAN="\033[1;32m<\033[1;33m<\033[1;31m<\033[1;31m${NC}"
-KIRI="\033[1;32m>\033[1;33m>\033[1;31m>\033[1;31m${NC}"
+a="ACCOUNT PREMIUM"
+
+# ── Retro-Futuristic / Cyberpunk TUI theme ──────────────
+source "$(dirname "$0")/theme.sh" 2>/dev/null || source "/var/lib/premium-script/theme.sh" 2>/dev/null
+
+# raw status words (strip old colors) for the neon service tiles
+st_of() { case "$1" in *ON*) echo "ON";; *) echo "OFF";; esac; }
+
+ram_pct=$(free -m | awk 'NR==2{printf "%.0f", $3*100/$2}')
 
 clear
-echo -e " "                                                           
-echo -e " ${NC} ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${NC}"
-echo -e " ${NC} │${bwhite}\033[41m        WELCOME TO PREMIUM SERVER       ${NC}│${NC}"
-echo -e " ${NC} ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛${NC}"
-echo -e " ${NC} ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${NC}"
-echo -e " ${NC} │$BRED » ${bblue}SYSTEM VPS ${YELL} : ${NC}$MODEL${NC}"
-echo -e " ${NC} │$BRED » ${bblue}RAM SERVER ${YELL} : ${NC}$uram / $tram MB ${NC}"
-echo -e " ${NC} │$BRED » ${bblue}DATE ${YELL}       : ${NC}$DATEVPS${NC}"
-echo -e " ${NC} │$BRED » ${bblue}TIME ${YELL}       : ${NC}$TIMEZONE${NC}"
-echo -e " ${NC} │$BRED » ${bblue}UPTIME ${YELL}     : ${NC}$SERONLINE${NC}"
-echo -e " ${NC} │$BRED » ${bblue}IP VPS ${YELL}     : ${BRED}$IPVPS${NC}"
-echo -e " ${NC} │$BRED » ${bblue}DOMAIN ${YELL}     : ${green}$domain${NC}"
-echo -e " ${NC} ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛$NC"
-echo -e " ${NC}                     ${KIRI} ACCOUNT 🧬INFORMATION ${KANAN}"
-echo -e " ${NC}         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}" | lolcat
-echo -e "               ${BRED} SSH/OPENVPN/UDP  $YELL:$NC $ssh1  ${YELL}$a"
-echo -e "               ${BRED} VMESS/WS/GRPC    $YELL:$NC $vma  ${YELL}$a"
-echo -e "               ${BRED} VLESS/WS/GRPC    $YELL:$NC $vla  ${YELL}$a"
-echo -e "               ${BRED} TROJAN/WS/GRPC   $YELL:$NC $trb  ${YELL}$a"
-echo -e "               ${BRED} SHADOW/WS/GRPC   $YELL:$NC $ssa  ${YELL}$a"
-echo -e " ${NC}         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}" | lolcat
-echo -e " ${NC}             ${KIRI} PREMIUM MENU ${KANAN}"
-echo -e " ${NC} ┏━━━━━━━━━━━━━━━━━━━━┓┏━━━━━━━━━━━━━━━━━━━━┓┏━━━━━━━━━━━━━━━━━━━━┓$NC"
-echo -e " ${NC} │  ${bblue}SSH     : $status_ssh          ${bblue}NGINX : $status_nginx            ${bblue}HAPROXY  : $status_haproxy     ${NC}│${NC}"
-echo -e " ${NC} │  ${bblue}WS-ePro : $status_ws_epro          ${bblue}XRAY  : $status_xray            ${bblue}DROPBEAR : $status_dropbear     ${NC}│${NC}"
-echo -e " ${NC} ┗━━━━━━━━━━━━━━━━━━━━┛┗━━━━━━━━━━━━━━━━━━━━┛┗━━━━━━━━━━━━━━━━━━━━┛$NC"
-echo -e " ${NC} ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${NC}"
-echo -e " ${NC} │$NC [${BRED}01$NC]${YELL} MENU SSH VIP  $NC│ [${BRED}09$NC]${YELL} AUTO REBOOT     $NC│ [${BRED}17$NC]${YELL} RESTART VPS   ${NC}│${NC}"
-echo -e " ${NC} │$NC [${BRED}02$NC]${YELL} MENU VMESS    $NC│ [${BRED}10$NC]${YELL} MENU PORT       $NC│ [${BRED}18$NC]${YELL} SET DOMAIN    ${NC}│$NC"    
-echo -e " ${NC} │$NC [${BRED}03$NC]${YELL} MENU VLESS    $NC│ [${BRED}11$NC]${YELL} SPEEDTEST       $NC│ [${BRED}19$NC]${YELL} CERT SSL      ${NC}│$NC"   
-echo -e " ${NC} │$NC [${BRED}04$NC]${YELL} MENU TROJAN   $NC│ [${BRED}12$NC]${YELL} RUNNING CEK     $NC│ [${BRED}20$NC]${YELL} INSTALL UDP   ${NC}│$NC" 
-echo -e " ${NC} │$NC [${BRED}05$NC]${YELL} MENU SHADOW   $NC│ [${BRED}13$NC]${YELL} CLEAR LOG       $NC│ [${BRED}21$NC]${YELL} CLEAR CACHE   ${NC}│$NC"
-echo -e " ${NC} │$NC [${BRED}06$NC]${YELL} MENU TRIAL    $NC│ [${BRED}14$NC]${YELL} CREATE SLOW     $NC│ [${BRED}22$NC]${YELL} CEK BANDWITH  ${NC}│$NC"
-echo -e " ${NC} │$NC [${BRED}07$NC]${YELL} CEK RAM/CPU   $NC│ [${BRED}15$NC]${YELL} BCKP/RSTR       $NC│ [${BRED}23$NC]${YELL} UP SCRIPT     ${NC}│$NC"
-echo -e " ${NC} │$NC [${BRED}08$NC]${YELL} DELL ALL EXP  $NC│ [${BRED}16$NC]${YELL} REBOOT VPS      $NC│ [${BRED}24$NC]${YELL} MENU BOT VIP  ${NC}│$NC"
-echo -e " ${NC} │                                                                ${NC}│"
-echo -e " ${NC} │$NC [${BRED}25$NC]${YELL} CHANGE BANNER SSH ${KANAN}                                     ${NC}│"
-echo -e " ${NC} │$NC [${BRED}26$NC]${BRED} LOG CREATE USER ACCOUNT ${KANAN}                               ${NC}│"
-echo -e " ${NC} ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛${NC}"
-echo -e " ${NC} ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓${NC}"
-echo -e " ${NC} │$bblue Script Version $YELL:$NC V3.0 (Last Update)"
-echo -e " ${NC} │$bblue Script Status  $YELL:$NC $sts"
-echo -e " ${NC} │$bblue Username       $YELL:$green $username "
-echo -e " ${NC} │$bblue Expired script $YELL:$NC $exp ${NC}/$green $certifacate ${NC}Days${NC}"
-echo -e " ${NC} ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛${NC}"
-echo -e " "
-read -p "  Select From Options [ 1-26 ] »» " opt
+echo ""
+# ═══ 1. Welcome banner — white text on dark-blue bg + magenta underline rule ═══
+BANNER='WELCOME TO ECHO TUNNEL SCRIPT SERVER'
+bg_off=$(( (TUI_WIDTH - ${#BANNER}) / 2 ))
+bg_left=$bg_off; bg_right=$(( TUI_WIDTH - bg_off - ${#BANNER} ))
+printf " \033[1;97;44m%*s%s%*s\033[0m\n" "$bg_left" "" "$BANNER" "$bg_right" ""
+neon_solid_line $TUI_WIDTH "$NPURPLE" '━'
+echo ""
+
+# ═══ 2. System VPS section — centered cyan badge, no side rails ═══
+sys_line() {  # sys_line "LABEL" "VALUE" [EXTRA] — » gold · label cyan · value lime
+    if [ $# -ge 3 ]; then
+        printf "     ${NGOLD}»${NOFF} ${NCYN}%-14s${NOFF}${NWHITE}:${NOFF} ${NLIME}%s${NOFF} ${NCYN}%s${NOFF}\n" "$1" "$2" "$3"
+    else
+        printf "     ${NGOLD}»${NOFF} ${NCYN}%-14s${NOFF}${NWHITE}:${NOFF} ${NLIME}%s${NOFF}\n" "$1" "$2"
+    fi
+}
+badge="SYSTEM VPS"
+bl=$(( (TUI_WIDTH - ${#badge}) / 2 ))
+printf "%*s${NCYN}┌──────────────┐${NOFF}\n" $bl ""
+printf "%*s${NCYN}│${NOFF} ${NWHITE}%s${NOFF} ${NCYN}│${NOFF}\n" $bl "$badge"
+printf "%*s${NCYN}└──────────────┘${NOFF}\n" $bl ""
+sys_line "IP VPS"     "$IPVPS"
+sys_line "RAM TOTAL"  "$tram MB"
+ram_bar=$(neon_bar "$ram_pct" 14)
+printf "     ${NGOLD}»${NOFF} ${NCYN}%-14s${NOFF}${NWHITE}:${NOFF} ${NLIME}%s / %s MB${NOFF}%s\n" "RAM SERVER" "$uram" "$tram" "$ram_bar"
+sys_line "CPU LOAD"   "$LOADCPU" "($CORE CORES)"
+sys_line "OS"         "$MODEL"
+sys_line "LAST LOGIN" "$DATEVPS" "($TIMEZONE)"
+sys_line "UPTIME"     "$SERONLINE"
+sys_line "HOSTNAME"   "$(hostname)"
+sys_line "DOMAIN"     "$domain"
+sys_line "ISP"        "$ISP"
+sys_line "CITY"       "$CITY"
+echo ""
+
+# ═══ 3. Account information — purple badge + rainbow rule, white rows, rainbow footer ═══
+acct_hdr=" ACCOUNT INFORMATION "
+al=$(( (TUI_WIDTH - ${#acct_hdr}) / 2 )); ar=$(( TUI_WIDTH - al - ${#acct_hdr} ))
+printf "%*s${BG_PURPLE}${NWHITE}%s${NOFF}%*s\n" $al "" "$acct_hdr" $ar ""
+seg=$(( TUI_WIDTH / 5 )); rem=$(( TUI_WIDTH - seg*5 ))
+rule="════════════════════════════════════════════════════════════════════════════════════"
+printf " ${NPURPLE}%s${NOFF}${NRED}%s${NOFF}${NGOLD}%s${NOFF}${NLIME}%s${NOFF}${NCYN}%s${NOFF}\n" \
+    "${rule:0:$((seg+1))}" "${rule:$((seg+1)):$seg}" "${rule:$((2*seg+1)):$seg}" "${rule:$((3*seg+1)):$seg}" "${rule:$((4*seg+1)):$((seg+rem))}"
+acct_row() { printf "     ${NWHITE}» %-16s : %-14s » %-16s : %-4s » ${a}${NOFF}\n" "$1" "$2" "$3" "$4"; }
+devlogin=$(ss -s 2>/dev/null | awk 'NR==1{gsub(/[^0-9]/,"",$NF); print $NF}'); devlogin=${devlogin:-0}
+acct_row "SSH OPENVPN ACC" "$ssh1"  "SSR/VMESS/VLESS" "$((vma+vla))"
+acct_row "TROJAN ACCOUNT"  "$trb"   "SHADOWSOCKS ACC" "$ssa"
+acct_row "TOTAL ACCOUNT"   "$((ssh1+vma+vla+trb+ssa))" "DEVICE LOGIN"  "$devlogin"
+echo ""
+printf "     ${NPURPLE}» LIMIT${NOFF} ${NRED}MAX${NOFF} ${NGOLD}ACTIVE${NOFF} ${NLIME}MULTI${NOFF} ${NCYN}LOGIN${NOFF}\n"
+echo ""
+
+# ═══ 4. Service status — one wide box, 4 gradient-bordered columns ═══
+q=$(( TUI_WIDTH / 4 )); rest=$(( TUI_WIDTH - q*3 ))
+rule4=" ${NPURPLE}┌$(printf '━%.0s' $(seq 1 $q))${NRED}$(printf '━%.0s' $(seq 1 $q))${NGOLD}$(printf '━%.0s' $(seq 1 $q))${NLIME}$(printf '━%.0s' $(seq 1 $rest))${NCYN}┐${NOFF}"
+printf "%s\n" "$rule4"
+svc_cell() {  # svc_cell NAME STATUS — cyan name + green/red status inside a quarter column
+    local n="$1" st="$2" w=$q body pad pr vis onlen
+    if [[ "$st" == *running* ]]; then body="${NCYN}${n}${NOFF} ${NLIME}: ON${NOFF}"; onlen=5; else body="${NCYN}${n}${NOFF} ${NRED}: OFF${NOFF}"; onlen=6; fi
+    vis=$(( ${#n} + onlen ))
+    pad=$(( (w - vis) / 2 )); (( pad < 1 )) && pad=1
+    pr=$(( w - vis - pad )); (( pr < 1 )) && pr=1
+    printf " %*s%b%*s" $pad "" "$body" $pr ""
+}
+printf " ${NPURPLE}│${NOFF}$(svc_cell SSH "$ssh_service")${NRED}│${NOFF}$(svc_cell DROPBEAR "$dropbear_service")${NGOLD}│${NOFF}$(svc_cell NGINX "$nginx_service")${NLIME}│${NOFF}$(svc_cell HAPROXY "$haproxy_service")${NCYN}│${NOFF}\n"
+printf " ${NPURPLE}└$(printf '━%.0s' $(seq 1 $q))${NRED}$(printf '━%.0s' $(seq 1 $q))${NGOLD}$(printf '━%.0s' $(seq 1 $q))${NLIME}$(printf '━%.0s' $(seq 1 $rest))${NCYN}┘${NOFF}\n"
+echo ""
+
+# ═══ 5. Menu grid — 3 columns × 10 rows (purple / red / lime labels) ═══
+mi() { menu_item "$1" "$2" "$3"; }
+col_w=21
+vislen() { printf '%b' "$1" | sed -r 's/\x1B\[[0-9;]*[mK]//g' | wc -m; }
+row3() {
+    local a b c pa pb pc
+    a=$(mi "$1" "$2" "$NPURPLE"); b=$(mi "$3" "$4" "$NRED"); c=$(mi "$5" "$6" "$NLIME")
+    pa=$(( col_w - $(vislen "$a") )); (( pa < 0 )) && pa=0
+    pb=$(( col_w - $(vislen "$b") )); (( pb < 0 )) && pb=0
+    pc=$(( col_w - $(vislen "$c") )); (( pc < 0 )) && pc=0
+    printf "   %b%*s   %b%*s   %b%*s\n" \
+        "$a" "$pa" "" "$b" "$pb" "" "$c" "$pc"
+}
+row3  1 "MENU SSH VIP"   11 "MENU PORT"      21 "RESTART SERVICE"
+row3  2 "MENU VMESS"     12 "CHECK PORT"     22 "BACKUP DATA"
+row3  3 "MENU VLESS"     13 "CHANGE PASS"    23 "RESTORE DATA"
+row3  4 "MENU TROJAN"    14 "CHANGE HOST"    24 "CHANGE BANNER"
+row3  5 "MENU SHADOWSOK" 15 "CHANGE PORT"    25 "ADD SUBDOMAIN"
+row3  6 "MENU SSR"       16 "LIMIT SPEED"    26 "DEL SUBDOMAIN"
+row3  7 "MENU TRIAL"     17 "AUTO REBOOT"    27 "LIST SUBDOMAIN"
+row3  8 "MENU USER/ACC"  18 "SET DOMAIN"     28 "CEK BANDWITH"
+row3  9 "MENU PING"      19 "CERT SSL"       29 "REBOOT VPS"
+row3 10 "CEK RAM/CPU"    20 "INSTALL UDP"    30 "UP SCRIPT"
+echo ""
+
+# ═══ 6. Script information box — cyan rules, white labels, cyan values ═══
+scr_hdr=" SCRIPT INFORMATION "
+sl=$(( (TUI_WIDTH - ${#scr_hdr}) / 2 )); sr=$(( TUI_WIDTH - sl - ${#scr_hdr} ))
+printf "%*s${BG_CYAN}${NWHITE}%s${NOFF}%*s\n" $sl "" "$scr_hdr" $sr ""
+printf " ${NCYN}┏$(printf '━%.0s' $(seq 1 $TUI_WIDTH))${NPURPLE}┓${NOFF}\n"
+info_row() { printf "     ${NWHITE}» ${NWHITE}%-15s${NOFF}${NWHITE}:${NOFF} ${NCYN}%s${NOFF}\n" "$1" "$2"; }
+info_row "Script Version" "V3.0 (Last Update)"
+info_row "Script Status"  "Active"
+info_row "Username"       "$username"
+info_row "Expired script" "$exp / $certifacate Days"
+printf " ${NCYN}┗$(printf '━%.0s' $(seq 1 $TUI_WIDTH))${NPURPLE}┛${NOFF}\n"
+echo ""
+
+# ═══ 7. Footer prompt — rainbow words + blinking cursor ═══
+printf " ${NCYN}root@echo-tunnel${NOFF}:${NPURPLE}~${NOFF}${NLIME}\$${NOFF} ${NPURPLE}Select${NOFF} ${NRED}From${NOFF} ${NGOLD}Options${NOFF} ${NLIME}[ 1-30 ]${NOFF} ${NCYN}»»${NOFF} "
+printf "\033[?25h"
+read opt
 
 case $opt in
 1 | 01)
