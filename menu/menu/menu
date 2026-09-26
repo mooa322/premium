@@ -52,20 +52,10 @@ TIMEZONE=$(printf '%(%H-%M-%S)T')
 SERONLINE=$(uptime -p | cut -d " " -f 2-10000)
 clear
 MYIP=$(curl -sS ipv4.icanhazip.com)
-echo ""
-izinsc="https://raw.githubusercontent.com/savagetech56/premium/main/register"
-# USERNAME
-rm -f /usr/bin/user
-username=$(curl ${izinsc} | grep $MYIP | awk '{print $2}')
-echo "$username" >/usr/bin/user
-# validity
-rm -f /usr/bin/e
-valid=$(curl ${izinsc} | grep $MYIP | awk '{print $3}')
-echo "$valid" >/usr/bin/e
-# DETAIL ORDER
-username=$(cat /usr/bin/user)
-oid=$(cat /usr/bin/ver)
-exp=$(cat /usr/bin/e)
+username="Admin"
+valid="$(date -d "+9999 years" +%Y-%m-%d)"
+exp="Unlimited"
+oid=""
 clear
 # CERTIFICATE STATUS
 d1=$(date -d "$valid" +%s)
@@ -84,12 +74,7 @@ mai="datediff "$Exp" "$DATE""
 Info="(${green}Active${NC})"
 Error="(${RED}Expired${NC})"
 today=`date -d "0 days" +"%Y-%m-%d"`
-Exp1=$(curl ${izinsc} | grep $MYIP | awk '{print $3}')
-if [[ $today < $Exp1 ]]; then
 sts="${Info}"
-else
-sts="${Error}"
-fi
 clear
 
 # OS Uptime

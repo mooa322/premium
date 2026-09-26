@@ -279,17 +279,11 @@ CITY=$(curl -s ipinfo.io/city )
 MYIP=$(curl -sS ipv4.icanhazip.com)
 echo -e "\e[32mloading...\e[0m" 
 clear
-izinsc="https://raw.githubusercontent.com/savagetech56/premium/main/register"
-# USERNAME
-rm -f /usr/bin/user
-username=$(curl $izinsc | grep $MYIP | awk '{print $2}')
-echo "$username" >/usr/bin/user
-expx=$(curl $izinsc | grep $MYIP | awk '{print $3}')
-echo "$expx" >/usr/bin/e
+username="Admin"
+expx="Unlimited"
 # DETAIL ORDER
-username=$(cat /usr/bin/user)
-oid=$(cat /usr/bin/ver)
-exp=$(cat /usr/bin/e)
+oid=""
+exp="$expx"
 clear
 # CERTIFICATE STATUS
 d1=$(date -d "$valid" +%s)
@@ -309,12 +303,7 @@ ISP=$(curl -s ipinfo.io/org | cut -d " " -f 2-10 )
 Info="(${green}Active${NC})"
 Error="(${RED}ExpiRED${NC})"
 today=`date -d "0 days" +"%Y-%m-%d"`
-Exp1=$(curl $izinsc | grep $MYIP | awk '{print $4}')
-if [[ $today < $Exp1 ]]; then
 sts="${Info}"
-else
-sts="${Error}"
-fi
 TIMES="10"
 CHATID="7000240664"
 KEY="8023217597:AAEuON1fOkXGQnGdSu48H9J7eX2CHOV-gdA"
